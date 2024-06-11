@@ -13,6 +13,8 @@ class User(AbstractBaseUser):
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
 
+    friends = models.ManyToManyField('self', blank=True)
+
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
@@ -20,13 +22,6 @@ class User(AbstractBaseUser):
 
     def __str__(self):
         return self.email
-    
-class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    friends = models.ManyToManyField(User, blank=True, related_name='friends')
-
-    def __str__(self):
-        return self.user.email
 
 class FriendRequest(models.Model):
     from_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='from_user')
