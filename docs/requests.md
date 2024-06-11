@@ -33,7 +33,7 @@ Content-Type: application/json
 
 {
     "email": "temp@gmail.com",
-    "password": "password"
+    "password": "password1"
 }
 ```
 #### Response
@@ -139,10 +139,10 @@ Authorization: Token b06cc6e528d3514c00690d080f1c45f0ee171dbffef7ed379e95e09af68
 ```http
 POST http://localhost:8000/api/send-request/
 Content-Type: application/json
-Authorization: Token 1eb4bf4eb4173562d6eb863aaa3e15f018f512f2fee7e598dec95055dc9e2dd1
+Authorization: Token 7e791be6d9135c2b88c24808f43fc52921ab8509f38f4f03494142b16e0b8c88
 
 {
-    "to_user_id": 2
+    "to_user_id": 3
 }
 ```
 
