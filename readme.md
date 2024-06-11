@@ -20,6 +20,12 @@ A simple social media API built using Django Rest Framework. The API has the fol
 git clone https://github.com/Abhi575k/social-app.git
 ```
 
+- Change the directory
+
+```bash
+cd social-app
+```
+
 - Install the dependencies
 
 ```bash
