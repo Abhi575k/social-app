@@ -2,6 +2,8 @@ from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from knox.models import AuthToken
 from knox.views import LogoutView as KnoxLogoutView
+from django.db.models import Q
+from rest_framework.pagination import PageNumberPagination
 
 from .serializers import RegisterSerializer, UserSerializer, ProfileSerializer
 from .models import User
@@ -95,4 +97,27 @@ class ProfileView(generics.RetrieveAPIView):
         user.save()
 
         return Response({'message': 'Profile updated successfully'}, status=status.HTTP_200_OK)
+
+class UserSearchPagination(PageNumberPagination):
+    page_size = 10
+    page_size_query_param = 'page_size'
+    max_page_size = 10
+
+class UserSearchView(generics.ListAPIView):
+    permission_classes = (permissions.IsAuthenticated,)
+    serializer_class = UserSerializer
+
+    def get(self, request):
+        search_query = self.request.query_params.get('q', '')
+        
+        users = User.objects.filter(
+            Q(email__icontains=search_query) | Q(name__icontains=search_query)
+        ).distinct()
+
+        paginator = UserSearchPagination()
+        
+        result_page = paginator.paginate_queryset(users, request)
+        users_data = [{'id': user.id, 'name': user.name, 'email': user.email} for user in result_page]
+        
+        return paginator.get_paginated_response(users_data)
 
